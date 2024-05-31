@@ -87,6 +87,7 @@ export class UserService {
 
                 if (hasAccuracyRememberedPassword) {
                     await this.userRepository.edit(existUser.email, {password: await createHash(newPassword), forgetPasswordKey: newPassword.slice(0,8)})
+                    
                     return res.status(StatusCodes.OK).send({r: true, msg: "Senha alterada com sucesso!"});
                 }
     
