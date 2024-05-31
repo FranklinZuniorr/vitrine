@@ -3,25 +3,36 @@ import * as yup from 'yup';
 
 export class UserEntity {
 
-    static async validate({email, name, password, pix, socialNetwork}: IUser): Promise<IUser> {
+    static async validate({...user}: IUser): Promise<IUser> {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         const userSchema = yup.object<IUser>().shape({
             email: yup.string().email("O email precisa estar no formato correto!").required("O email é obrigatório!"),
-            name: yup.string().required("O nome é obrigatório!"),
-            password: yup.string().required("A senha é obrigatória!"),
-            pix: yup.string().required("A chave pix para recebimento é obrigatória!"),
-            socialNetwork: yup.string()
+            password: yup.string()
+            .matches(passwordRegex, 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial')
+            .required('O campo senha é obrigatório'),
+            forgetPasswordKey: yup.string().required('Forget key password deve existir.'),
         })
-
-        const user = {
-            email: email,
-            name: name,
-            password: password,
-            pix: pix,
-            socialNetwork: socialNetwork
-        };
 
         try {
             const validatedData = userSchema.validateSync(user, {
+              abortEarly: false, 
+            });
+          
+            return validatedData;
+        } catch (error: any) {
+            const msgErrors = error.inner.map((e: any) => e.message);
+            throw msgErrors;
+        }
+    }
+
+    static async validatePassword(password: string): Promise<string> {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordSchema = yup.string()
+        .matches(passwordRegex, 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial')
+        .required('O campo senha é obrigatório');
+
+        try {
+            const validatedData = passwordSchema.validateSync(password, {
               abortEarly: false, 
             });
           

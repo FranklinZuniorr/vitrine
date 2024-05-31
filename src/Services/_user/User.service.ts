@@ -3,8 +3,8 @@ import { UserEntity } from "./entities/User.entity";
 import { IResponse } from "../../interfaces/Interfaces";
 import { StatusCodes } from 'http-status-codes';
 import { UserRepository } from "./repository/User.repository";
-import { EUser, ILogin, INewToken, IUser } from "./interfaces/IUser";
-import { comparePasswordToHash, createHash, createToken } from "../../utils/Utils";
+import { EUser, ILogin, INewPassword, INewToken, IUser } from "./interfaces/IUser";
+import { calculatePasswordSimilarity, comparePasswordToHash, createHash, createToken } from "../../utils/Utils";
 import moment from "moment";
 
 export class UserService {
@@ -17,7 +17,7 @@ export class UserService {
 
     async newUser(req: Request, res: Response<IResponse<any>>){
         try {
-            const user: IUser = await UserEntity.validate(req.body);
+            const user: IUser = await UserEntity.validate({...req.body, forgetPasswordKey: req.body.password});
             const existUser = await this.userRepository.find(EUser.email, user.email);
 
             if(existUser){
@@ -26,6 +26,7 @@ export class UserService {
 
             const refactorUser: IUser = {
                 ...user,
+                forgetPasswordKey: user.forgetPasswordKey.slice(0, 8),
                 password: await createHash(user.password),
             }
 
@@ -35,7 +36,7 @@ export class UserService {
 
             console.warn(error)
 
-            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível criar esse usuário."]});
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: error as string[] ?? ["Não foi possível criar esse usuário."]});
         }
     }
 
@@ -67,6 +68,35 @@ export class UserService {
             
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Erro ao fazer login."]});
+        }
+    }
+
+    async newPassword(req: Request, res: Response<IResponse<any>>){
+        try {
+            const body: INewPassword = {...req.body};
+            const userId: string = req.params.userId;
+            const newPassword: string = await UserEntity.validatePassword(body.newPassword);
+            const existUser: IUser | boolean = await this.userRepository.findById(userId) as IUser;
+            
+            if(existUser) {
+                const comparedPassword = await comparePasswordToHash(body.newPassword, existUser.password);
+
+                if (comparedPassword) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Essa senha já está em uso!"]});
+
+                const hasAccuracyRememberedPassword: boolean = calculatePasswordSimilarity(body.rememberedPassword, existUser.forgetPasswordKey) > 0.5;
+
+                if (hasAccuracyRememberedPassword) {
+                    await this.userRepository.edit(existUser.email, {password: await createHash(newPassword), forgetPasswordKey: newPassword.slice(0,8)})
+                    return res.status(StatusCodes.OK).send({r: true, msg: "Senha alterada com sucesso!"});
+                };
+    
+                return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["A sua última senha informada não está de acordo!"]});
+            }
+            
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse usuário não existe."]});
+            
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: error as string[] ?? ["Erro ao atualizar senha!"]});
         }
     }
 

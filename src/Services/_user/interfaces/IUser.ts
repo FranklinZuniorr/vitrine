@@ -3,12 +3,10 @@ import { ObjectId } from "mongoose";
 export interface IUser {
     _id?: ObjectId,
     email: string,
-    name: string,
     password: string,
-    pix: string,
-    socialNetwork?: string,
     validateRefreshToken?: string,
     validToken?: string,
+    forgetPasswordKey: string;
 }
 
 export interface ILogin {
@@ -20,12 +18,15 @@ export interface INewToken {
     email: string,
 }
 
+export interface INewPassword {
+    rememberedPassword: string;
+    newPassword: string;
+}
+
 export enum EUser {
+    _id = "_id",
     email = "email",
-    name = "name",
     password = "password",
-    pix = "pix",
-    socialNetwork = "socialNetwork",
     validateRefreshToken = "validateRefreshToken",
     validToken = "validToken", 
 }
