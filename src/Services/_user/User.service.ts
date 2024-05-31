@@ -35,7 +35,7 @@ export class UserService {
 
             console.warn(error)
 
-            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível criar esse usuário."]});
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: error as string[] ?? ["Não foi possível criar esse usuário."]});
         }
     }
 

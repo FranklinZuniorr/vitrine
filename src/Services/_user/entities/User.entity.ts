@@ -3,21 +3,18 @@ import * as yup from 'yup';
 
 export class UserEntity {
 
-    static async validate({email, name, password, pix, socialNetwork}: IUser): Promise<IUser> {
+    static async validate({email, password}: IUser): Promise<IUser> {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         const userSchema = yup.object<IUser>().shape({
             email: yup.string().email("O email precisa estar no formato correto!").required("O email é obrigatório!"),
-            name: yup.string().required("O nome é obrigatório!"),
-            password: yup.string().required("A senha é obrigatória!"),
-            pix: yup.string().required("A chave pix para recebimento é obrigatória!"),
-            socialNetwork: yup.string()
+            password: yup.string()
+            .matches(passwordRegex, 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial')
+            .required('O campo senha é obrigatório')
         })
 
         const user = {
             email: email,
-            name: name,
             password: password,
-            pix: pix,
-            socialNetwork: socialNetwork
         };
 
         try {

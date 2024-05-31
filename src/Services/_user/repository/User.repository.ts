@@ -30,10 +30,7 @@ export class UserRepository {
                 const refactorUser: IUser = {
                     _id: userObject._id,
                     email: userObject.email,
-                    name: userObject.name,
                     password: userObject.password,
-                    pix: userObject.pix,
-                    socialNetwork: userObject.socialNetwork,
                     validateRefreshToken: userObject.validateRefreshToken,
                     validToken: userObject.validToken
                 }; 
