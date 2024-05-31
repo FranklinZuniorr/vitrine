@@ -6,6 +6,7 @@ export interface IUser {
     password: string,
     validateRefreshToken?: string,
     validToken?: string,
+    forgetPasswordKey: string;
 }
 
 export interface ILogin {
@@ -17,7 +18,13 @@ export interface INewToken {
     email: string,
 }
 
+export interface INewPassword {
+    rememberedPassword: string;
+    newPassword: string;
+}
+
 export enum EUser {
+    _id = "_id",
     email = "email",
     password = "password",
     validateRefreshToken = "validateRefreshToken",

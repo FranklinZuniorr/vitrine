@@ -6,6 +6,7 @@ export interface IUserModel extends Document {
   tickets: number,
   validateRefreshToken: string,
   validToken: string,
+  forgetPasswordKey: string;
 };
 
 const UserModelSchema: Schema<IUserModel> = new Schema<IUserModel>({
@@ -14,6 +15,7 @@ const UserModelSchema: Schema<IUserModel> = new Schema<IUserModel>({
   tickets: { type: Number, required: false },
   validateRefreshToken: { type: String, required: false },
   validToken: { type: String, required: false },
+  forgetPasswordKey: { type: String, required: true },
 });
 
 const UserModel = mongoose.model<IUserModel>('User', UserModelSchema);

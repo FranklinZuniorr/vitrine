@@ -12,7 +12,7 @@ export class UserRepository {
 
     async create(data: IUser): Promise<boolean>{
         try {
-            await this.userModel.create({...data, email: data.email.toLowerCase(), tickets: 0 });
+            await this.userModel.create({...data, email: data.email.toLowerCase(), tickets: 0, forgetPasswordKey: data.forgetPasswordKey });
 
             return true;
             
@@ -32,7 +32,8 @@ export class UserRepository {
                     email: userObject.email,
                     password: userObject.password,
                     validateRefreshToken: userObject.validateRefreshToken,
-                    validToken: userObject.validToken
+                    validToken: userObject.validToken,
+                    forgetPasswordKey: userObject.forgetPasswordKey,
                 }; 
                 return refactorUser;
             }
@@ -44,7 +45,31 @@ export class UserRepository {
         }
     }
 
-    async edit(email: string, newUser: IUser): Promise<boolean>{
+    async findById(userId: string): Promise<IUser | boolean>{
+        try {
+            const user = await this.userModel.findById(userId);
+            
+            if(user){
+                const userObject: IUser = user.toObject(); 
+                const refactorUser: IUser = {
+                    _id: userObject._id,
+                    email: userObject.email,
+                    password: userObject.password,
+                    validateRefreshToken: userObject.validateRefreshToken,
+                    validToken: userObject.validToken,
+                    forgetPasswordKey: userObject.forgetPasswordKey,
+                }; 
+                return refactorUser;
+            }
+
+            throw false;
+            
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async edit(email: string, newUser: Partial<IUser>): Promise<boolean>{
         try {
 
 
