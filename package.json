@@ -15,9 +15,7 @@
     "test:coverage": "jest --coverage",
     "cz-conventional-changelog": "commitizen init cz-conventional-changelog --force --save-dev --save-exact",
     "husky-init": "husky",
-    "husky-commit-prepare": "echo 'npx --no -- commitlint --edit $1' > .husky/commit-msg",
-    "husky-prepare-commit-msg-prepare": "echo 'exec < /dev/tty && node_modules/.bin/git-cz --hook || true' > .husky/prepare-commit-msg",
-    "prepare": "npm run cz-conventional-changelog",
+    "prepare": "npm run cz-conventional-changelog && npm run husky-init",
     "publish-v": "npm version patch --git-tag-version false && git add . && git commit -m '' && npm run build && npm publish && git push",
     "commit": "cz"
   },
