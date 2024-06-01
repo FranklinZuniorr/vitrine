@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import { IToken } from "../interfaces/Interfaces";
 
 const secretKey = process.env.SECRET_KEY as string;
 
@@ -31,12 +32,11 @@ export const createToken = (payload: object): string => {
   return token;
 }
 
-export const validateToken = (token: string): boolean => {
+export const validateToken = (token: string): boolean | IToken => {
   try {
-    const decoded = jwt.verify(token, secretKey) as object;
-    return true;
+    const decoded: IToken = jwt.verify(token, secretKey) as IToken;
+    return decoded;
   } catch (error) {
-    console.error('Error validating token:', error);
     return false;
   }
 }
