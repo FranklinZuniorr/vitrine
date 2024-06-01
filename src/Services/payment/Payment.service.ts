@@ -3,7 +3,7 @@ import { IResponse } from "../../interfaces/Interfaces";
 import { StatusCodes } from 'http-status-codes';
 import { UserRepository } from "../_user/repository/User.repository";
 
-const YOUR_DOMAIN = 'http://localhost:3000';
+const REDIRECT_URL = process.env.REDIRECT_URL_STRIPE;
 const stripe = require('stripe')(process.env.API_KEY_STRIPE);
 
 export class PaymentService {
@@ -28,8 +28,8 @@ export class PaymentService {
                     userId
                 },
                 mode: 'payment',
-                success_url: `${YOUR_DOMAIN}?success=true`,
-                cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+                success_url: `${REDIRECT_URL}?success=true`,
+                cancel_url: `${REDIRECT_URL}?canceled=true`,
             });
             res.redirect(303, session.url);
         } catch (error) {

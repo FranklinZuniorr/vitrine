@@ -10,6 +10,6 @@ const userService: UserService = new UserService(userRepository);
 userController.post('/', (req: Request, res: Response) => userService.newUser(req, res));
 userController.post('/login', (req: Request, res: Response) => userService.login(req, res));
 userController.post('/new-token', (req: Request, res: Response) => userService.newToken(req, res));
-userController.post('/new-password/:userId', (req: Request, res: Response) => userService.newPassword(req, res));
+userController.post('/new-password/:userEmail', (req: Request, res: Response) => userService.newPassword(req, res));
 
 export default userController;
