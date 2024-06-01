@@ -43,7 +43,7 @@ export class PaymentService {
             const userId = payload.data.object.metadata.userId;
             const status = payload.data.object.status;
 
-            if(!status || status && status !== 'succeeded') return res.status(StatusCodes.BAD_REQUEST).end();
+            if(status !== 'succeeded' || !userId) return res.status(StatusCodes.BAD_REQUEST).end();
 
             await this.userRepository.editTickets(userId, 10);
 
