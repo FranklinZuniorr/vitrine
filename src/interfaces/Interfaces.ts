@@ -5,6 +5,11 @@ export interface IResponse<data> {
     r: boolean
 }
 
+export interface IToken {
+    email: string;
+    id: string;
+}
+
 /* export interface IResponse {
     data: any,
     errors?: string[],
