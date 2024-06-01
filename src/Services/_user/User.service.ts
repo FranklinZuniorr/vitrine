@@ -34,8 +34,6 @@ export class UserService {
             res.status(StatusCodes.OK).send({r: true, msg: "Usuário criado com sucesso!"});
         } catch (error) {
 
-            console.warn(error)
-
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: error as string[] ?? ["Não foi possível criar esse usuário."]});
         }
     }
@@ -74,9 +72,9 @@ export class UserService {
     async newPassword(req: Request, res: Response<IResponse<any>>){
         try {
             const body: INewPassword = {...req.body};
-            const userId: string = req.params.userId;
+            const userEmail: string = req.params.userEmail;
             const newPassword: string = await UserEntity.validatePassword(body.newPassword);
-            const existUser: IUser | boolean = await this.userRepository.findById(userId) as IUser;
+            const existUser: IUser | boolean = await this.userRepository.find(EUser.email, userEmail) as IUser;
             
             if(existUser) {
                 const comparedPassword = await comparePasswordToHash(body.newPassword, existUser.password);
@@ -88,7 +86,7 @@ export class UserService {
                 if (hasAccuracyRememberedPassword) {
                     await this.userRepository.edit(existUser.email, {password: await createHash(newPassword), forgetPasswordKey: newPassword.slice(0,8)})
                     return res.status(StatusCodes.OK).send({r: true, msg: "Senha alterada com sucesso!"});
-                };
+                }
     
                 return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["A sua última senha informada não está de acordo!"]});
             }

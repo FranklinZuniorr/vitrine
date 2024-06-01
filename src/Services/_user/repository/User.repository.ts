@@ -85,4 +85,20 @@ export class UserRepository {
             return false;
         }
     }
+
+    async editTickets(userId: string, qty: number): Promise<boolean>{
+        try {
+
+            const userEdited = await this.userModel.updateOne({_id: userId}, {$inc: {tickets: qty}});
+
+            if(userEdited){
+                return true
+            }
+
+            throw false;
+            
+        } catch (error) {
+            return false;
+        }
+    }
 };
