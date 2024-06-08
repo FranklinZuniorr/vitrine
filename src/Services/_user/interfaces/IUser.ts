@@ -16,6 +16,7 @@ export interface ILogin {
 
 export interface INewToken {
     email: string,
+    currentToken: string,
 }
 
 export interface INewPassword {

@@ -31,7 +31,7 @@ export class PaymentService {
                 success_url: `${REDIRECT_URL}?success=true`,
                 cancel_url: `${REDIRECT_URL}?canceled=true`,
             });
-            res.redirect(303, session.url);
+            res.status(StatusCodes.OK).send({r: true, data: { url: session.url }});
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível criar o checkout."]});
         }
