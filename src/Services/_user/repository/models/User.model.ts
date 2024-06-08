@@ -1,6 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { IStore } from '../../interfaces/IUser';
 
 export interface IUserModel extends Document {
+  store: IStore;
   email: string,
   password: string,
   tickets: number,
@@ -16,6 +18,7 @@ const UserModelSchema: Schema<IUserModel> = new Schema<IUserModel>({
   validateRefreshToken: { type: String, required: false },
   validToken: { type: String, required: false },
   forgetPasswordKey: { type: String, required: true },
+  store: { type: Object, required: true },
 });
 
 const UserModel = mongoose.model<IUserModel>('User', UserModelSchema);

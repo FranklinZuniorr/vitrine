@@ -11,6 +11,10 @@ export class UserEntity {
             .matches(passwordRegex, 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial')
             .required('O campo senha é obrigatório'),
             forgetPasswordKey: yup.string().required('Forget key password deve existir.'),
+            store: yup.object().shape({
+                name: yup.string().min(8, 'O nome da loja deve conte no mínimo 8 letras!').required('O nome da loja é obrigatório!'),
+                photo: yup.string().required('A foto da loja é obrigatório!'),
+            }).required('A configuração da loja é obrigatório!')
         })
 
         try {
