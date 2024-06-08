@@ -102,8 +102,11 @@ export class UserService {
         try {
             const body: INewToken = {
                 email: req.body.email,
+                currentToken: req.body.currentToken
             };
             const existUser: IUser | boolean = await this.userRepository.find(EUser.email, body.email.toLowerCase()) as IUser;
+
+            if(existUser.validToken !== body.currentToken) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Acesso inválido!"] });
 
             if(existUser){
                 const verifyDateRefreshToken: boolean = moment(existUser.validateRefreshToken).isAfter(moment());
