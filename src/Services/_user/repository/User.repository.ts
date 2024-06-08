@@ -34,6 +34,7 @@ export class UserRepository {
                     validateRefreshToken: userObject.validateRefreshToken,
                     validToken: userObject.validToken,
                     forgetPasswordKey: userObject.forgetPasswordKey,
+                    store: userObject.store,
                 }; 
                 return refactorUser;
             }
@@ -58,6 +59,7 @@ export class UserRepository {
                     validateRefreshToken: userObject.validateRefreshToken,
                     validToken: userObject.validToken,
                     forgetPasswordKey: userObject.forgetPasswordKey,
+                    store: userObject.store,
                 }; 
                 return refactorUser;
             }

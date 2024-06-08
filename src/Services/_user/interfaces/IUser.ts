@@ -1,12 +1,18 @@
 import { ObjectId } from "mongoose";
 
+export interface IStore {
+    name: string;
+    photo: string;
+}
+
 export interface IUser {
     _id?: ObjectId,
     email: string,
     password: string,
     validateRefreshToken?: string,
     validToken?: string,
-    forgetPasswordKey: string;
+    forgetPasswordKey: string,
+    store: IStore,
 }
 
 export interface ILogin {
