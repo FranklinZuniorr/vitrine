@@ -16,5 +16,8 @@ userController.post('/new-password/:userEmail', (req: Request, res: Response) =>
 userController.post('/delete/:userId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
 (req: Request, res: Response) => userService.delete(req, res));
+userController.post('/edit/:userEmail', 
+(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
+(req: Request, res: Response) => userService.edit(req, res));
 
 export default userController;
