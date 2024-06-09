@@ -73,11 +73,24 @@ export class UserRepository {
 
     async edit(email: string, newUser: Partial<IUser>): Promise<boolean>{
         try {
-
-
             const userEdited = await this.userModel.updateOne({email: email.toLowerCase()}, newUser);
 
             if(userEdited){
+                return true
+            }
+
+            throw false;
+            
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async delete(id: string): Promise<Boolean> {
+        try {
+            const userDeleted = await this.userModel.deleteOne({_id: id});
+
+            if(userDeleted){
                 return true
             }
 

@@ -21,7 +21,7 @@ export class UserService {
             const existUser = await this.userRepository.find(EUser.email, user.email);
 
             if(existUser){
-                return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse usuário já existe."]});
+                return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse email já está em uso."]});
             }
 
             const refactorUser: IUser = {
@@ -66,6 +66,17 @@ export class UserService {
             
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Erro ao fazer login."]});
+        }
+    }
+
+    async delete(req: Request, res: Response<IResponse<any>>){
+        try {
+            const userId: string = req.params.userId;
+            const hasDeletedUse = await this.userRepository.delete(userId);
+            if(!hasDeletedUse) return res.status(StatusCodes.BAD_REQUEST).send({r: true, msg: "Não foi possível deletar!"});
+            res.status(StatusCodes.OK).send({r: true, msg: "Usuário deletado com sucesso!"});
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: true, msg: "Não foi possível deletar!"});
         }
     }
 
