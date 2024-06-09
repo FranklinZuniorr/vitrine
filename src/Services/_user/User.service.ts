@@ -38,6 +38,32 @@ export class UserService {
         }
     }
 
+    async edit(req: Request, res: Response<IResponse<any>>){
+        try {
+            const userEmail: string = req.params.userEmail;
+            const existUser = await this.userRepository.find(EUser.email, userEmail);
+
+            if(!existUser) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse usuário não existe!"]});
+
+            const newUser: Partial<IUser> = await UserEntity.validateEdit({
+                email: req.body.email,
+                password: req.body.password,
+                store: req.body.store,
+            });
+
+            if (newUser.password) {
+                newUser.forgetPasswordKey = newUser.password.slice(0, 8);
+                newUser.password = await createHash(newUser.password);
+            }
+
+            await this.userRepository.edit(userEmail, newUser);
+            res.status(StatusCodes.OK).send({r: true, msg: "Usuário editado com sucesso!"});
+        } catch (error) {
+
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: error as string[] ?? ["Não foi possível criar esse usuário."]});
+        }
+    }
+
     async login(req: Request, res: Response<IResponse<any>>){
         try {
             const body: ILogin = {
