@@ -99,10 +99,10 @@ export class UserService {
         try {
             const userId: string = req.params.userId;
             const hasDeletedUse = await this.userRepository.delete(userId);
-            if(!hasDeletedUse) return res.status(StatusCodes.BAD_REQUEST).send({r: true, msg: "Não foi possível deletar!"});
+            if(!hasDeletedUse) return res.status(StatusCodes.BAD_REQUEST).send({r: false, msg: "Não foi possível deletar!"});
             res.status(StatusCodes.OK).send({r: true, msg: "Usuário deletado com sucesso!"});
         } catch (error) {
-            res.status(StatusCodes.BAD_REQUEST).send({r: true, msg: "Não foi possível deletar!"});
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, msg: "Não foi possível deletar!"});
         }
     }
 
@@ -163,5 +163,9 @@ export class UserService {
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Erro ao obter um novo token."]});
         }
+    }
+
+    async checkToken(req: Request, res: Response<IResponse<any>>){
+        res.status(StatusCodes.OK).send({r: true, msg: "O token está okay!"});
     }
 }
