@@ -13,6 +13,8 @@ export interface IUser {
     validToken?: string,
     forgetPasswordKey: string,
     store: IStore,
+    tickets: number,
+
 }
 
 export interface ILogin {
