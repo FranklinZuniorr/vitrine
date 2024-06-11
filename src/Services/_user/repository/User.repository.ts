@@ -35,6 +35,7 @@ export class UserRepository {
                     validToken: userObject.validToken,
                     forgetPasswordKey: userObject.forgetPasswordKey,
                     store: userObject.store,
+                    tickets: userObject.tickets,
                 }; 
                 return refactorUser;
             }
@@ -60,6 +61,7 @@ export class UserRepository {
                     validToken: userObject.validToken,
                     forgetPasswordKey: userObject.forgetPasswordKey,
                     store: userObject.store,
+                    tickets: userObject.tickets,
                 }; 
                 return refactorUser;
             }

@@ -14,12 +14,14 @@ export class UserEntity {
             store: yup.object().shape({
                 name: yup.string().min(8, 'O nome da loja deve conte no mínimo 8 letras!').required('O nome da loja é obrigatório!'),
                 photo: yup.string().required('A foto da loja é obrigatório!'),
-            }).required('A configuração da loja é obrigatório!')
-        })
+            }).required('A configuração da loja é obrigatório!'),
+            tickets: yup.number().required(),
+        }).noUnknown(true, 'Campos adicionais não são permitidos!');
 
         try {
             const validatedData = userSchema.validateSync(user, {
               abortEarly: false, 
+              stripUnknown: false,
             });
           
             return validatedData;
