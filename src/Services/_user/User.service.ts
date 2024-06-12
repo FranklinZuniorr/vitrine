@@ -165,7 +165,7 @@ export class UserService {
         }
     }
 
-    async checkToken(req: Request, res: Response<IResponse<any>>){
-        res.status(StatusCodes.OK).send({r: true, msg: "O token está okay!"});
+    async checkToken(req: Request, res: Response<IResponse<IUser>>){
+        res.status(StatusCodes.OK).send({r: true, msg: "O token está okay!", data: req.body.user});
     }
 }
