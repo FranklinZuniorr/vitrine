@@ -29,4 +29,28 @@ export class ProductEntity {
             throw msgErrors;
         }
     }
+
+    static async validateEdit({...product}: Partial<IProduct>): Promise<Partial<IProduct>> {
+        const productSchema = yup.object<Partial<IProduct>>().shape({
+            name: yup.string(),
+            description: yup.string(),
+            photo: yup.string(),
+            status: yup.string().oneOf(Object.values(ENUM_STATUS), `Só os valores ${Object.values(ENUM_STATUS).map(text => text)} são permitidos`),
+            redirectLink: yup.string(),
+            value: yup.number(),
+            userId: yup.string().test('isObjectId', "O id precisa ser válido!", value => isObjectIdOrHexString(value)),
+        }).noUnknown(true, 'Campos adicionais não são permitidos!')
+
+        try {
+            const validatedData = productSchema.validateSync(product, {
+              abortEarly: false, 
+              stripUnknown: false,
+            });
+          
+            return validatedData;
+        } catch (error: any) {
+            const msgErrors = error.inner.map((e: any) => e.message);
+            throw msgErrors;
+        }
+    }
 }

@@ -19,4 +19,14 @@ export class ProductsRepository {
             return false;
         }
     }
+
+    async edit(productId: string, data: Partial<IProduct>): Promise<boolean>{
+        try {
+            await this.productsModel.findByIdAndUpdate(productId, data);
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 };

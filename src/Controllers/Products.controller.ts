@@ -19,5 +19,10 @@ productsController.post('/new',
 (req: Request, res: Response, next: NextFunction) => subtractTicket.subtract(req, res, next, 1),
 (req: Request, res: Response) => productsService.newProduct(req, res)
 );
+productsController.put('/edit/:productId', 
+(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
+(req: Request, res: Response, next: NextFunction) => subtractTicket.subtract(req, res, next, 1),
+(req: Request, res: Response) => productsService.editProduct(req, res)
+)
 
 export default productsController;
