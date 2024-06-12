@@ -13,10 +13,10 @@ userController.post('/', (req: Request, res: Response) => userService.newUser(re
 userController.post('/login', (req: Request, res: Response) => userService.login(req, res));
 userController.post('/new-token', (req: Request, res: Response) => userService.newToken(req, res));
 userController.post('/new-password/:userEmail', (req: Request, res: Response) => userService.newPassword(req, res));
-userController.post('/delete/:userId', 
+userController.delete('/delete/:userId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
 (req: Request, res: Response) => userService.delete(req, res));
-userController.post('/edit/:userEmail', 
+userController.put('/edit/:userEmail', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
 (req: Request, res: Response) => userService.edit(req, res));
 userController.post('/check-token', 

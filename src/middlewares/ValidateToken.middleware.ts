@@ -25,7 +25,9 @@ export class ValidateToken {
 
         if(!existUser) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Usuário não existe!"]});
         if(existUser.validToken !== token) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Token inválido!"]});
+        const { validToken, validateRefreshToken, forgetPasswordKey, password, ...restUser } = existUser;
         req.params.userId = userId;
+        req.body.user = restUser;
         next();
     }
 }
