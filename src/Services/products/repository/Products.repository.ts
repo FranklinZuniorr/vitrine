@@ -46,4 +46,21 @@ export class ProductsRepository {
             return false;
         }
     }
+
+    async getById(productId: string): Promise<IProduct | boolean> {
+        try {
+
+           const product = await this.productsModel.findById(productId);
+
+           if(product){
+                const productObject: IProduct = product.toObject();
+                return productObject;
+           }
+
+           throw false;
+           
+        } catch (error) {
+            return false;
+        }
+    }
 };
