@@ -32,6 +32,10 @@ productsController.get('/one/:productId',
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
 (req: Request, res: Response) => productsService.getById(req, res)
 )
+productsController.get('/search/:productName', 
+(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
+(req: Request, res: Response) => productsService.getBySearch(req, res)
+)
 productsController.delete('/one/:productId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
 (req: Request, res: Response) => productsService.deleteById(req, res)

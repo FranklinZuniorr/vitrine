@@ -73,4 +73,26 @@ export class ProductsRepository {
             return false;
         }
     }
+
+    async getBySearch(search: string): Promise<IProduct[] | boolean> {
+        try {
+
+           const pipeline = [
+                {$search: {index: "productName", autocomplete: {query: search, path: "name"}}},
+                {$limit: 5}
+            ];
+
+           const products = await this.productsModel.aggregate(pipeline);
+
+           if(products){
+                const productsObject: IProduct[] = products.map(product => product);
+                return productsObject;
+            }
+
+            throw false;
+           
+        } catch (error) {
+            return false;
+        }
+    }
 };
