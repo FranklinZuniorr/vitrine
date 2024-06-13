@@ -43,7 +43,7 @@ export class ProductsService {
         }
     }
 
-    async getAll(req: Request, res: Response<IResponse<IProduct[]>>){
+    async getAllByUser(req: Request, res: Response<IResponse<IProduct[]>>){
         try {
             const userId: string = req.params.userId; 
             const products: IProduct[] | boolean = await this.productsRepository.getAll(userId);
@@ -53,6 +53,19 @@ export class ProductsService {
             res.status(StatusCodes.OK).send({ r: true, data: products as IProduct[], msg: "Produtos encontrados!" })
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível encontrar produtos!"]});
+        }
+    }
+
+    async getById(req: Request, res: Response<IResponse<IProduct>>){
+        try {
+            const productId: string = req.params.productId; 
+            const product: IProduct | boolean = await this.productsRepository.getById(productId);
+
+            if(!product) return res.status(StatusCodes.NOT_FOUND).send({r: false, errors: ["Nenhum produto encontrado!"]});
+
+            res.status(StatusCodes.OK).send({ r: true, data: product as IProduct, msg: "Produto encontrado!" })
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível encontrar o produto!"]});
         }
     }
 }
