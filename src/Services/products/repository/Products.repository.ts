@@ -29,4 +29,21 @@ export class ProductsRepository {
             return false;
         }
     }
+
+    async getAll(userId: string): Promise<IProduct[] | boolean> {
+        try {
+
+           const products = await this.productsModel.find({ userId: userId });
+
+           if(products){
+                const productsObject: IProduct[] = products.map(product => product.toObject());
+                return productsObject;
+           }
+
+           throw false;
+           
+        } catch (error) {
+            return false;
+        }
+    }
 };

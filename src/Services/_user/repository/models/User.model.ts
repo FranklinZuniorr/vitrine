@@ -19,7 +19,7 @@ const UserModelSchema: Schema<IUserModel> = new Schema<IUserModel>({
   validToken: { type: String, required: false },
   forgetPasswordKey: { type: String, required: true },
   store: { type: Object, required: true },
-});
+}, { timestamps: true });
 
 const UserModel = mongoose.model<IUserModel>('User', UserModelSchema);
 
