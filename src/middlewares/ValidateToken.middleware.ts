@@ -13,7 +13,7 @@ export class ValidateToken {
         this.userRepository = UserRepository;
     }
 
-    async verify(req: Request, res: Response<IResponse<any>>, next: NextFunction){
+    async verify(req: Request, res: Response<IResponse<any>>, next: NextFunction, insertUserInfos: boolean = false){
         const token: string = req.headers['authorization'] ?? '';
         const isValidToken: boolean | IToken = validateToken(token);
 
@@ -26,8 +26,12 @@ export class ValidateToken {
         if(!existUser) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Usuário não existe!"]});
         if(existUser.validToken !== token) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Token inválido!"]});
         const { validToken, validateRefreshToken, forgetPasswordKey, password, ...restUser } = existUser;
-        req.params.userId = userId;
-        req.body.user = restUser;
+
+        if(insertUserInfos) {
+            req.params.userId = userId;
+            req.body.user = restUser;
+        }
+        
         next();
     }
 }

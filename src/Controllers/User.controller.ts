@@ -20,7 +20,7 @@ userController.put('/edit/:userEmail',
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
 (req: Request, res: Response) => userService.edit(req, res));
 userController.post('/check-token', 
-(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
+(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next, true), 
 (req: Request, res: Response) => userService.checkToken(req, res));
 
 export default userController;

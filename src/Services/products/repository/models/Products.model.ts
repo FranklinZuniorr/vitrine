@@ -13,7 +13,7 @@ const ProductsModelSchema: Schema<IProductsModel> = new Schema<IProductsModel>({
   redirectLink: { type: String, required: true },
   value: { type: Number, required: true },
   userId: { type: Schema.Types.ObjectId, required: true },
-});
+}, { timestamps: true });
 
 const ProductsModel = mongoose.model<IProductsModel>('Products', ProductsModelSchema);
 
