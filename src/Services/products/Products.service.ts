@@ -68,4 +68,17 @@ export class ProductsService {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível encontrar o produto!"]});
         }
     }
+
+    async deleteById(req: Request, res: Response<IResponse<IProduct>>){
+        try {
+            const productId: string = req.params.productId; 
+            const hasDeletedproduct: boolean = await this.productsRepository.delete(productId);
+
+            if(!hasDeletedproduct) return res.status(StatusCodes.NOT_FOUND).send({r: false, errors: ["O produto não foi deletado!"]});
+
+            res.status(StatusCodes.OK).send({ r: true, msg: "Produto deletado!" })
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível deletar o produto!"]});
+        }
+    }
 }

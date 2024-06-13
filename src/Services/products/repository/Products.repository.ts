@@ -30,6 +30,16 @@ export class ProductsRepository {
         }
     }
 
+    async delete(productId: string): Promise<boolean>{
+        try {
+            await this.productsModel.deleteOne({ _id: productId });
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     async getAll(userId: string): Promise<IProduct[] | boolean> {
         try {
 
