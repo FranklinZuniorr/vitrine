@@ -32,9 +32,9 @@ productsController.get('/one/:productId',
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
 (req: Request, res: Response) => productsService.getById(req, res)
 )
-productsController.get('/search/:productName', 
+productsController.get('/search/:productName/:userId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
-(req: Request, res: Response) => productsService.getBySearch(req, res)
+(req: Request, res: Response) => productsService.getBySearchWithUserId(req, res)
 )
 productsController.delete('/one/:productId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
