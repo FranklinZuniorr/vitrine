@@ -69,6 +69,21 @@ export class ProductsService {
         }
     }
 
+    async getBySearchWithUserId(req: Request, res: Response<IResponse<IProduct[]>>){
+        try {
+            const { productName, userId } = req.params; 
+            const products: IProduct[] | boolean = await this.productsRepository.getBySearchWithUserId(productName, userId);
+
+            if(!products || (products && (products as IProduct[]).length === 0)) {
+                return res.status(StatusCodes.NOT_FOUND).send({r: false, errors: ["Nenhum produto encontrado!"]});
+            }
+
+            res.status(StatusCodes.OK).send({ r: true, data: products as IProduct[], msg: "Produtos encontrados!" })
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível encontrar produtos!"]});
+        }
+    }
+
     async deleteById(req: Request, res: Response<IResponse<IProduct>>){
         try {
             const productId: string = req.params.productId; 

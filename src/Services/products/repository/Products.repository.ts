@@ -1,4 +1,4 @@
-import { Document, Model } from "mongoose";
+import { Document, Model, PipelineStage } from "mongoose";
 import { IProductsModel } from "./models/Products.model";
 import { IProduct } from "../interfaces/IProducts";
 
@@ -68,6 +68,51 @@ export class ProductsRepository {
            }
 
            throw false;
+           
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async getBySearch(search: string): Promise<IProduct[] | boolean> {
+        try {
+
+           const pipeline = [
+                {$search: {index: "productName", autocomplete: {query: search, path: "name"}}},
+                {$limit: 5}
+            ];
+
+           const products = await this.productsModel.aggregate(pipeline);
+
+           if(products){
+                const productsObject: IProduct[] = products.map(product => product);
+                return productsObject;
+            }
+
+            throw false;
+           
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async getBySearchWithUserId(search: string, userId: string): Promise<IProduct[] | boolean> {
+        try {
+
+           const pipeline: PipelineStage[] = [
+               {$search: {index: "productName", autocomplete: {query: search, path: "name"}}},
+               {$match: { $expr: { userId } }},
+               {$limit: 5}
+            ];
+
+           const products = await this.productsModel.aggregate(pipeline);
+
+           if(products){
+                const productsObject: IProduct[] = products.map(product => product);
+                return productsObject;
+            }
+
+            throw false;
            
         } catch (error) {
             return false;
