@@ -18,6 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', controllers);
 
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log('Servidor iniciado com sucesso!');
 });
 
