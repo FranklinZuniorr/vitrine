@@ -98,8 +98,8 @@ export class UserService {
     async delete(req: Request, res: Response<IResponse<any>>){
         try {
             const userId: string = req.params.userId;
-            const hasDeletedUse = await this.userRepository.delete(userId);
-            if(!hasDeletedUse) return res.status(StatusCodes.BAD_REQUEST).send({r: false, msg: "Não foi possível deletar!"});
+            const hasDeletedUser = await this.userRepository.delete(userId);
+            if(!hasDeletedUser) return res.status(StatusCodes.BAD_REQUEST).send({r: false, msg: "Não foi possível deletar!"});
             res.status(StatusCodes.OK).send({r: true, msg: "Usuário deletado com sucesso!"});
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, msg: "Não foi possível deletar!"});
@@ -159,6 +159,8 @@ export class UserService {
 
                 return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Acesso inválido!"] });
             }
+
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse usuário não existe."]});
             
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Erro ao obter um novo token."]});
@@ -167,5 +169,23 @@ export class UserService {
 
     async checkToken(req: Request, res: Response<IResponse<IUser>>){
         res.status(StatusCodes.OK).send({r: true, msg: "O token está okay!", data: req.body.user});
+    }
+
+    async logout(req: Request, res: Response<IResponse<any>>){
+        try {
+            const { userId } = req.params;
+            const existUser: IUser | boolean = await this.userRepository.findById(userId) as IUser;
+
+            if(existUser){
+                const newUser: IUser = { ...existUser as IUser, validToken: '', validateRefreshToken: '' };
+                await this.userRepository.edit(existUser.email, newUser);
+                return res.status(StatusCodes.OK).send({r: true, msg: "Deslogado com sucesso!"});
+            }
+
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse usuário não existe."]});
+            
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível deslogar!"]});
+        }
     }
 }
