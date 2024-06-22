@@ -24,21 +24,12 @@ productsController.put('/edit/:productId',
 (req: Request, res: Response, next: NextFunction) => subtractTicket.subtract(req, res, next, 1),
 (req: Request, res: Response) => productsService.editProduct(req, res)
 )
-productsController.get('/all/:userId', 
-(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
-(req: Request, res: Response) => productsService.getAllByUser(req, res)
-)
-productsController.get('/one/:productId', 
-(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
-(req: Request, res: Response) => productsService.getById(req, res)
-)
-productsController.get('/search/:productName/:userId', 
-(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
-(req: Request, res: Response) => productsService.getBySearchWithUserId(req, res)
-)
 productsController.delete('/one/:productId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
 (req: Request, res: Response) => productsService.deleteById(req, res)
 )
+productsController.get('/all/:userId',(req: Request, res: Response) => productsService.getAllByUser(req, res))
+productsController.get('/one/:productId',(req: Request, res: Response) => productsService.getById(req, res))
+productsController.get('/search/:productName/:userId', (req: Request, res: Response) => productsService.getBySearchWithUserId(req, res))
 
 export default productsController;
