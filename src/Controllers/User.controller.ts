@@ -15,6 +15,10 @@ userController.post('/',
 (req: Request, res: Response, next: NextFunction) => cloudinary.filterImage(req, res, next),  
 (req: Request, res: Response) => userService.newUser(req, res));
 userController.post('/login', (req: Request, res: Response) => userService.login(req, res));
+userController.post('/logout/:userId', 
+(req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next),
+(req: Request, res: Response) => userService.logout(req, res)
+);
 userController.post('/new-token', (req: Request, res: Response) => userService.newToken(req, res));
 userController.post('/new-password/:userEmail', (req: Request, res: Response) => userService.newPassword(req, res));
 userController.delete('/delete/:userId', 
