@@ -12,7 +12,7 @@ export class UserRepository {
 
     async create(data: IUser): Promise<boolean>{
         try {
-            await this.userModel.create({...data, email: data.email.toLowerCase(), tickets: 0, forgetPasswordKey: data.forgetPasswordKey });
+            await this.userModel.create({...data, email: data.email.toLowerCase() });
 
             return true;
             
