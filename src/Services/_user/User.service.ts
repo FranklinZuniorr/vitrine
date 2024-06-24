@@ -17,7 +17,7 @@ export class UserService {
 
     async newUser(req: Request, res: Response<IResponse<any>>){
         try {
-            const user: IUser = await UserEntity.validate({...req.body, forgetPasswordKey: req.body.password, tickets: 0});
+            const user: IUser = await UserEntity.validate({...req.body, forgetPasswordKey: req.body.password, tickets: 1});
             const existUser = await this.userRepository.find(EUser.email, user.email);
 
             if(existUser){
