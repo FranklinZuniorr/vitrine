@@ -3,6 +3,9 @@
   "version": "1.0.9",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "nodemon --exec ts-node src/app.ts",
     "build": "tsc",
