@@ -12,7 +12,7 @@
     "start": "node dist/app.js",
     "prettier-fix": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "push-v": "npm version patch && git push",
-    "heroku-prebuild": "npm install --only=dev",
+    "heroku-prebuild": "npm install",
     "heroku-postbuild": "npm run build",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
