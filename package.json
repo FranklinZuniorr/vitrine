@@ -19,7 +19,7 @@
     "test:coverage": "jest --coverage",
     "cz-conventional-changelog": "commitizen init cz-conventional-changelog --force --save-dev --save-exact",
     "husky-init": "husky",
-    "prepare": "npm run cz-conventional-changelog",
+    "prepare": "npm run cz-conventional-changelog --only=dev",
     "publish-v": "npm version patch --git-tag-version false && git add . && git commit -m '' && npm run build && npm publish && git push",
     "commit": "cz"
   },
