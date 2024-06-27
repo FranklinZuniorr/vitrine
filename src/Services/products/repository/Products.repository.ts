@@ -1,4 +1,5 @@
 import { Document, Model, PipelineStage } from "mongoose";
+import { ObjectId } from 'mongodb';
 import { IProductsModel } from "./models/Products.model";
 import { IProduct } from "../interfaces/IProducts";
 
@@ -96,12 +97,14 @@ export class ProductsRepository {
         }
     }
 
-    async getBySearchWithUserId(search: string, userId: string): Promise<IProduct[] | boolean> {
+    async getBySearchWithUserId(search: string, paramUserId: string): Promise<IProduct[] | boolean> {
         try {
+
+           const userId = new ObjectId(paramUserId);
 
            const pipeline: PipelineStage[] = [
                {$search: {index: "productName", autocomplete: {query: search, path: "name"}}},
-               {$match: { $expr: { userId } }},
+               {$match: { userId: userId }},
                {$limit: 5}
             ];
 
