@@ -19,7 +19,17 @@ export class Cloudinary {
         const result = await cloudinary.uploader.upload(base64, { overwrite: true, unique_filename: true }).then(res => res).catch(err => err);
         const secureUrl = result.secure_url;
 
-        if(!result) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ r: false, errors: ['Não foi possível registrar a imagem!'] })
+        if(!result) {
+            if(base64Situation1) {
+                req.body.photo = base64Situation1;
+            }
+    
+            if(base64Situation2) {
+                req.body.store.photo = base64Situation2;
+            }
+
+            next();
+        }
         
         if(base64Situation1) {
             req.body.photo = secureUrl;
