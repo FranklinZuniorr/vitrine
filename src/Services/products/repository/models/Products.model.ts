@@ -7,7 +7,7 @@ export interface IProductsModel extends Omit<IProduct, 'userId'>, Document {
 
 const ProductsModelSchema: Schema<IProductsModel> = new Schema<IProductsModel>({
   name: { type: String, required: true },
-  description: { type: String, required: true },
+  description: { type: String, required: false },
   photo: { type: String, required: true },
   status: { type: String, required: true },
   redirectLink: { type: String, required: true },
