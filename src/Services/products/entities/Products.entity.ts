@@ -8,7 +8,7 @@ export class ProductEntity {
     static async validate({...product}: IProduct): Promise<IProduct> {
         const productSchema = yup.object<IProduct>().shape({
             name: yup.string().required('O nome do produto é obrigatório!'),
-            description: yup.string().required('A descrição do produto é obrigatória!'),
+            description: yup.string(),
             photo: yup.string().required('A foto do produto é obrigatória'),
             status: yup.string().oneOf(Object.values(ENUM_STATUS), `Só os valores ${Object.values(ENUM_STATUS).map(text => text)} são permitidos`)
             .required('O status do produto é obrigatório!'),
