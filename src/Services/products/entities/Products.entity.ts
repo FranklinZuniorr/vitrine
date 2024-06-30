@@ -30,15 +30,14 @@ export class ProductEntity {
         }
     }
 
-    static async validateEdit({...product}: Partial<IProduct>): Promise<Partial<IProduct>> {
-        const productSchema = yup.object<Partial<IProduct>>().shape({
+    static async validateEdit({...product}: Partial<Omit<IProduct, 'userId'>>): Promise<Partial<Omit<IProduct, 'userId'>>> {
+        const productSchema = yup.object<Partial<Omit<IProduct, 'userId'>>>().shape({
             name: yup.string(),
             description: yup.string(),
             photo: yup.string(),
             status: yup.string().oneOf(Object.values(ENUM_STATUS), `Só os valores ${Object.values(ENUM_STATUS).map(text => text)} são permitidos`),
             redirectLink: yup.string(),
             value: yup.number(),
-            userId: yup.string().test('isObjectId', "O id precisa ser válido!", value => isObjectIdOrHexString(value)),
         }).noUnknown(true, 'Campos adicionais não são permitidos!')
 
         try {
