@@ -47,7 +47,7 @@ export class ProductsRepository {
            const products = await this.productsModel.find({ userId: userId });
 
            if(products){
-                const productsObject: IProduct[] = products.map(product => product.toObject());
+                const productsObject: IProduct[] = products.map(product => product.toObject({ versionKey: false }));
                 return productsObject;
            }
 
@@ -64,7 +64,7 @@ export class ProductsRepository {
            const product = await this.productsModel.findById(productId);
 
            if(product){
-                const productObject: IProduct = product.toObject();
+                const productObject: IProduct = product.toObject({ versionKey: false });
                 return productObject;
            }
 
