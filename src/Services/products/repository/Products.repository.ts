@@ -21,7 +21,7 @@ export class ProductsRepository {
         }
     }
 
-    async edit(productId: string, data: Partial<IProduct>): Promise<boolean>{
+    async edit(productId: string, data: Partial<Omit<IProduct, 'userId'>>): Promise<boolean>{
         try {
             await this.productsModel.findByIdAndUpdate(productId, data);
 
