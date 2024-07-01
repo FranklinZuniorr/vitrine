@@ -3,7 +3,7 @@ import { UserEntity } from "./entities/User.entity";
 import { IResponse } from "../../interfaces/Interfaces";
 import { StatusCodes } from 'http-status-codes';
 import { UserRepository } from "./repository/User.repository";
-import { EUser, ILogin, INewPassword, INewToken, IUser } from "./interfaces/IUser";
+import { EUser, ILogin, INewPassword, INewToken, IStore, IUser } from "./interfaces/IUser";
 import { calculatePasswordSimilarity, comparePasswordToHash, createHash, createToken } from "../../utils/Utils";
 import moment from "moment";
 
@@ -186,6 +186,19 @@ export class UserService {
             
         } catch (error) {
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível deslogar!"]});
+        }
+    }
+
+    async storeInfo(req: Request, res: Response<IResponse<IStore>>){
+        try {
+            const { userId } = req.params; 
+            const existUser: IUser | boolean = await this.userRepository.findById(userId) as IUser;
+
+            if(!existUser) return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Essa loja não existe."]});
+
+            res.status(StatusCodes.OK).send({r: true, data: existUser.store});
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Não foi possível encontrar a loja!"]});
         }
     }
 }
