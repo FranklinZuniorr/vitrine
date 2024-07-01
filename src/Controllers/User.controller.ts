@@ -20,6 +20,7 @@ userController.post('/logout/:userId',
 (req: Request, res: Response) => userService.logout(req, res)
 );
 userController.post('/new-token', (req: Request, res: Response) => userService.newToken(req, res));
+userController.get('/store/:userId', (req: Request, res: Response) => userService.storeInfo(req, res));
 userController.post('/new-password/:userEmail', (req: Request, res: Response) => userService.newPassword(req, res));
 userController.delete('/delete/:userId', 
 (req: Request, res: Response, next: NextFunction) => validateToken.verify(req, res, next), 
