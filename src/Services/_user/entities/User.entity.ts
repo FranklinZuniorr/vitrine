@@ -12,7 +12,7 @@ export class UserEntity {
             .required('O campo senha é obrigatório'),
             forgetPasswordKey: yup.string().required('Forget key password deve existir.'),
             store: yup.object().shape({
-                name: yup.string().min(8, 'O nome da loja deve conte no mínimo 8 letras!').required('O nome da loja é obrigatório!'),
+                name: yup.string().min(3, 'O nome da loja deve conte no mínimo 3 letras!').required('O nome da loja é obrigatório!'),
                 photo: yup.string().required('A foto da loja é obrigatório!'),
             }).required('A configuração da loja é obrigatório!'),
             tickets: yup.number().required(),
@@ -39,7 +39,7 @@ export class UserEntity {
             .matches(passwordRegex, 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um caractere especial'),
             forgetPasswordKey: yup.string(),
             store: yup.object().shape({
-                name: yup.string().min(8, 'O nome da loja deve conte no mínimo 8 letras!').required('O nome da loja é obrigatório!'),
+                name: yup.string().min(3, 'O nome da loja deve conte no mínimo 3 letras!').required('O nome da loja é obrigatório!'),
                 photo: yup.string().required('A foto da loja é obrigatório!'),
             })
         })
