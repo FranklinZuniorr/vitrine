@@ -3,6 +3,8 @@ import { ObjectId } from "mongoose";
 export interface IStore {
     name: string;
     photo: string;
+    mainColor?: string;
+    description?: string;
 }
 
 export interface IUser {
