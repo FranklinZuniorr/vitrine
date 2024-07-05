@@ -14,6 +14,8 @@ export class UserEntity {
             store: yup.object().shape({
                 name: yup.string().min(3, 'O nome da loja deve conte no mínimo 3 letras!').required('O nome da loja é obrigatório!'),
                 photo: yup.string().required('A foto da loja é obrigatório!'),
+                mainColor: yup.string(),
+                description: yup.string(),
             }).required('A configuração da loja é obrigatório!'),
             tickets: yup.number().required(),
         }).noUnknown(true, 'Campos adicionais não são permitidos!');
@@ -40,6 +42,8 @@ export class UserEntity {
             store: yup.object().shape({
                 name: yup.string().min(3, 'O nome da loja deve conte no mínimo 3 letras!').required('O nome da loja é obrigatório!'),
                 photo: yup.string().required('A foto da loja é obrigatório!'),
+                mainColor: yup.string(),
+                description: yup.string(),
             })
         })
 
