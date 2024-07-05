@@ -11,7 +11,7 @@ const userService: UserService = new UserService(userRepository);
 const validateToken: ValidateToken = new ValidateToken(userRepository);
 const cloudinary: Cloudinary = new Cloudinary();
 
-userController.post('/',
+userController.post('/new',
 (req: Request, res: Response, next: NextFunction) => cloudinary.filterImage(req, res, next),  
 (req: Request, res: Response) => userService.newUser(req, res));
 userController.post('/login', (req: Request, res: Response) => userService.login(req, res));
