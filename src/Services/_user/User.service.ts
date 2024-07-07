@@ -164,7 +164,7 @@ export class UserService {
                     return res.status(StatusCodes.OK).send({r: true, msg: "Acesso garantido!", data: {token}});
                 }
 
-                return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Acesso inválido!"] });
+                return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Tempo de atualização do token expirado!"] });
             }
 
             res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse usuário não existe."]});
