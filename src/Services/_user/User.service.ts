@@ -25,7 +25,7 @@ export class UserService {
                 mainColor: "#2b2b2b",
                 description: "",
             }});
-            const existUser = await this.userRepository.find(EUser.email, user.email);
+            const existUser = await this.userRepository.find(EUser.email, user.email.toLowerCase());
 
             if(existUser){
                 return res.status(StatusCodes.BAD_REQUEST).send({r: false, errors: ["Esse email já está em uso."]});
